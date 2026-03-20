@@ -93,6 +93,13 @@ mod message {
     }
 }
 
+fn handle_client_disconnect(sender: String, tx: &Sender<Message>) {
+    let leave_message = Message::new(sender, "has left the chat".to_string());
+    tx.send(leave_message)
+        .map_err(|e| eprintln!("Failed to broadcast leave message: {}", e))
+        .ok();
+}
+
 async fn handle_connection(
     stream: TcpStream,
     mut broadcast_rx: Receiver<Message>,
@@ -119,11 +126,7 @@ async fn handle_connection(
             Ok(n) = reader.read_line(&mut buf) => {
                 if n == 0 {
                     // Client disconnected
-                    let leave_message = Message::new(sender.clone(),"has left the chat".to_string());
-                    broadcast_tx
-                        .send(leave_message).map_err(
-                            |e| eprintln!("Failed to broadcast leave message: {}", e)
-                        ).ok();
+                    handle_client_disconnect(sender.clone(), &broadcast_tx);
                     break;
                 }
                 // Broadcast the message to all other clients
