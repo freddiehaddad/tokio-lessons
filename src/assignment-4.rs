@@ -1,5 +1,3 @@
-use std::time::Duration;
-
 // Assignment 4: Graceful Shutdown Orchestrator
 //
 // Objective: Extend your chat server (or build fresh) with proper graceful
@@ -46,6 +44,7 @@ use std::time::Duration;
 // - No panics, no orphaned tasks
 // - Code clearly separates the shutdown logic from the normal operation
 use message::Message;
+use std::time::Duration;
 use tokio::{
     io::{AsyncBufReadExt, AsyncWriteExt, BufReader},
     net::{TcpListener, TcpStream},
