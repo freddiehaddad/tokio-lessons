@@ -7,19 +7,20 @@
 //
 //  1. Define ~20 simulated work items (each sleeps for a random 100–500ms and
 //     returns a result, e.g. format!("Task {id} completed"))
-//  2. Process all items concurrently, but at most N tasks may run simultaneously
-//     — use a const MAX_CONCURRENT: usize = 5
+//  2. Process all items concurrently, but at most N tasks may run
+//     simultaneously
+//     - use a const MAX_CONCURRENT: usize = 5
 //  3. Use tokio::sync::Semaphore to enforce the limit
 //  4. For each task, print:
-//   - When it starts (with its task ID)
-//   - When it finishes (with its task ID and how long it took)
+//     - When it starts (with its task ID)
+//     - When it finishes (with its task ID and how long it took)
 //  5. Print total elapsed time at the end
 //  6. Bonus: When a task starts, also print how many tasks are currently
 //     in-flight (hint: MAX_CONCURRENT - semaphore.available_permits())
 //
 // Why this matters: In Assignment 1 you fired off all requests at once. In real
-// systems — API rate limits, database connection pools, file descriptor limits
-// — you need bounded concurrency. Semaphore is the standard async primitive for
+// systems - API rate limits, database connection pools, file descriptor limits
+// - you need bounded concurrency. Semaphore is the standard async primitive for
 // this.
 //
 // Hints:
@@ -80,7 +81,8 @@ async fn main() {
 
         // Spawn a task for each work item
         handles.push(tokio::spawn(async move {
-            // Attempt to acquire a permit from the semaphore before spawning the task
+            // Attempt to acquire a permit from the semaphore before spawning
+            // the task
             let Ok(_permit) = semaphore.acquire().await else {
                 eprintln!("Task {} failed to acquire semaphore permit", id);
                 return Err(());
@@ -89,7 +91,8 @@ async fn main() {
             // Record the start time of the task
             let start_time = Instant::now();
 
-            // Send a message when the task starts, including how many tasks are currently in-flight
+            // Send a message when the task starts, including how many tasks are
+            // currently in-flight
             tx.send(format!(
                 "Task {} started at {:?} (Currently in-flight: {})",
                 id,
@@ -98,10 +101,14 @@ async fn main() {
             ))
             .await
             .unwrap_or_else(|e| {
-                eprintln!("Failed to send start message for task {}: {:?}", id, e);
+                eprintln!(
+                    "Failed to send start message for task {}: {:?}",
+                    id, e
+                );
             });
 
-            // Simulate work by sleeping for a random duration between 100 and 500 ms
+            // Simulate work by sleeping for a random duration between 100 and
+            // 500 ms
             tokio::time::sleep(Duration::from_millis(random_range(
                 MIN_SLEEP_MS..=MAX_SLEEP_MS,
             )))
@@ -112,7 +119,10 @@ async fn main() {
             tx.send(format!("Task {} completed in {:.2?}", id, elapsed,))
                 .await
                 .unwrap_or_else(|e| {
-                    eprintln!("Failed to send completion message for task {}: {:?}", id, e);
+                    eprintln!(
+                        "Failed to send completion message for task {}: {:?}",
+                        id, e
+                    );
                 });
 
             let result = format!("Task {} completed", id);

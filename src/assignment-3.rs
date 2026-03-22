@@ -7,14 +7,15 @@
 //
 //  1. Listen on 127.0.0.1:8080 using tokio::net::TcpListener
 //  2. When a client connects, assign them a name (e.g., User1, User2, etc.)
-//  3. Broadcast a join message to all other clients: "User3 has joined the chat"
-//  4. When a client sends a message, broadcast it to all other connected clients
-//     (not back to the sender) in the format: "User3: hello everyone"
+//  3. Broadcast a join message to all other clients: "User3 has joined the
+//     chat"
+//  4. When a client sends a message, broadcast it to all other connected
+//     clients (not back to the sender) in the format: "User3: hello everyone"
 //  5. When a client disconnects, broadcast a leave message: "User3 has left the
 //     chat"
 //  6. Use tokio::sync::broadcast channel for message distribution
-//  7. Handle errors gracefully — one client disconnecting should never crash the
-//     server or affect other clients
+//  7. Handle errors gracefully — one client disconnecting should never crash
+//     the server or affect other clients
 //
 // How to test it:
 //
@@ -64,10 +65,12 @@ struct Message {
 #[tokio::main]
 async fn main() {
     // Create a broadcast channel for message distribution
-    let (broadcast_tx, _broadcast_rx): (Sender<Message>, Receiver<Message>) = channel(CAPACITY);
+    let (broadcast_tx, _broadcast_rx): (Sender<Message>, Receiver<Message>) =
+        channel(CAPACITY);
     let mut user_id = 1;
 
-    let Ok(listener) = TcpListener::bind(format!("{IP_ADDRESS}:{PORT}")).await else {
+    let Ok(listener) = TcpListener::bind(format!("{IP_ADDRESS}:{PORT}")).await
+    else {
         eprintln!("Failed to bind to {}:{}", IP_ADDRESS, PORT);
         return;
     };
@@ -84,14 +87,16 @@ async fn main() {
                 // Clone the broadcast sender for this client task
                 let broadcast_tx = broadcast_tx.clone();
 
-                // Assign a username based on the user_id and increment it for the next user
+                // Assign a username based on the user_id and increment it for
+                // the next user
                 let next_user_id = user_id;
                 user_id += 1;
                 let username = format!("User{}", next_user_id);
 
                 // Spawn a new task to handle this client's connection
                 tokio::spawn(async move {
-                    // Split the stream into reader and writer for concurrent handling
+                    // Split the stream into reader and writer for concurrent
+                    // handling
                     let (rx, mut tx) = stream.into_split();
                     let mut reader = BufReader::new(rx);
 

@@ -5,13 +5,13 @@
 //
 // Requirements:
 //
-//  1. Accept a hardcoded list of at least 5 URLs (or take them from command-line
-//     args — your choice) 2. Fetch all URLs concurrently using tokio::spawn and
-//     reqwest
+//  1. Accept a hardcoded list of at least 5 URLs (or take them from
+//     command-line args - your choice)
+//  2. Fetch all URLs concurrently using tokio::spawn and reqwest
 //  3. For each URL, print:
-//   - The URL
-//   - The HTTP status code (or the error if the request failed)
-//   - How long that individual request took
+//      - The URL
+//      - The HTTP status code (or the error if the request failed)
+//      - How long that individual request took
 //  4. After all requests complete, print the total elapsed time
 //  5. Handle errors gracefully — a single failed URL should not crash the
 //     program

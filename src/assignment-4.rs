@@ -1,40 +1,41 @@
 // Assignment 4: Graceful Shutdown Orchestrator
 //
 // Objective: Extend your chat server (or build fresh) with proper graceful
-// shutdown — stop accepting new connections, drain in-flight work, and exit
+// shutdown - stop accepting new connections, drain in-flight work, and exit
 // cleanly.
 //
 // Requirements:
 //
-// 1. Start with your chat server from Assignment 3 (copy it to assignment-4.rs)
-// 2. When the user presses Ctrl+C, the server should:
-//    - Stop accepting new connections (exit the accept loop)
-//    - Broadcast a shutdown message to all connected clients: "Server is shutting
-//      down..."
-//    - Wait for all connected clients to disconnect (or for their tasks to
-//      finish), but with a timeout of 5 seconds — if clients haven't disconnected
-//      by then, force-close
-// 3. Print "Server shut down gracefully." on exit
-// 4. Use:
-// - tokio::signal::ctrl_c() to detect Ctrl+C
-// - tokio::select! in the accept loop to race between accepting and the
-//   shutdown signal
-// - tokio::time::timeout to enforce the 5-second drain deadline
-// - A tokio_util::sync::CancellationToken or a broadcast channel to notify
-//   client tasks they should wrap up
+//  1. Start with your chat server from Assignment 3 (copy it to
+//     assignment-4.rs)
+//  2. When the user presses Ctrl+C, the server should:
+//     - Stop accepting new connections (exit the accept loop)
+//     - Broadcast a shutdown message to all connected clients: "Server is
+//       shutting down..."
+//     - Wait for all connected clients to disconnect (or for their tasks to
+//       finish), but with a timeout of 5 seconds — if clients haven't
+//       disconnected by then, force-close
+//  3. Print "Server shut down gracefully." on exit
+//  4. Use:
+//     - tokio::signal::ctrl_c() to detect Ctrl+C
+//     - tokio::select! in the accept loop to race between accepting and the
+//       shutdown signal
+//     - tokio::time::timeout to enforce the 5-second drain deadline
+//     - A tokio_util::sync::CancellationToken or a broadcast channel to notify
+//       client tasks they should wrap up
 //
 // Hints:
 //
-// - The accept loop becomes: select! { conn = listener.accept() => { ... }, _ =
-//   signal::ctrl_c() => { break; } }
-// - You'll need a way to track active client tasks — collect JoinHandles, or
-//   use a JoinSet
-// - tokio::time::timeout(Duration::from_secs(5), drain_all_tasks).await — if it
-//   returns Err(_), the timeout elapsed
-// - CancellationToken from tokio-util is the cleanest pattern: create one,
-//   clone it to each client task, and call .cancel() on shutdown. Each client
-//   checks .cancelled() in their select!
-// - Add tokio-util to your Cargo.toml if using CancellationToken
+//  - The accept loop becomes: select! { conn = listener.accept() => { ... }, _
+//    = signal::ctrl_c() => { break; } }
+//  - You'll need a way to track active client tasks — collect JoinHandles, or
+//    use a JoinSet
+//  - tokio::time::timeout(Duration::from_secs(5), drain_all_tasks).await — if
+//    it returns Err(_), the timeout elapsed
+//  - CancellationToken from tokio-util is the cleanest pattern: create one,
+//    clone it to each client task, and call .cancel() on shutdown. Each client
+//    checks .cancelled() in their select!
+//  - Add tokio-util to your Cargo.toml if using CancellationToken
 //
 // Grading criteria:
 //
@@ -112,7 +113,8 @@ async fn handle_connection(
     let mut reader = BufReader::new(rx);
 
     // Broadcast a join message to all other clients
-    let join_message = Message::new(sender.clone(), "has joined the chat.".to_string());
+    let join_message =
+        Message::new(sender.clone(), "has joined the chat.".to_string());
 
     if let Err(e) = broadcast_tx.send(join_message) {
         eprintln!("Failed to broadcast join message: {}", e);
@@ -130,7 +132,9 @@ async fn handle_connection(
                     break;
                 }
                 // Broadcast the message to all other clients
-                let message = Message::new(sender.clone(), buf.trim().to_string());
+                let message = Message::new(
+                    sender.clone(), buf.trim().to_string()
+                );
                 if let Err(e) = broadcast_tx.send(message) {
                     eprintln!("Failed to broadcast message: {}", e);
                     break;
@@ -157,13 +161,15 @@ async fn handle_connection(
 
 #[tokio::main]
 async fn main() {
-    let Ok(listener) = TcpListener::bind(format!("{IP_ADDRESS}:{PORT}")).await else {
+    let Ok(listener) = TcpListener::bind(format!("{IP_ADDRESS}:{PORT}")).await
+    else {
         eprintln!("Failed to bind to {}:{}", IP_ADDRESS, PORT);
         return;
     };
 
     // Create a broadcast channel for message distribution
-    let (broadcast_tx, _broadcast_rx): (Sender<Message>, Receiver<Message>) = channel(CAPACITY);
+    let (broadcast_tx, _broadcast_rx): (Sender<Message>, Receiver<Message>) =
+        channel(CAPACITY);
 
     // Track tasks
     let mut tasks = JoinSet::new();
@@ -188,7 +194,8 @@ async fn main() {
                         // Spawn a new task to handle this client's connection
                         tasks.spawn(async move {
                             handle_connection(
-                                stream, broadcast_rx, c_token, sender, broadcast_tx
+                                stream, broadcast_rx, c_token, sender,
+                                broadcast_tx
                             ).await
                         });
                     }

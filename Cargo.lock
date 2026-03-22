@@ -1352,7 +1352,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "tokio-hw"
+name = "tokio-lessons"
 version = "0.1.0"
 dependencies = [
  "anyhow",
