@@ -13,6 +13,7 @@ you will need!
 1. Rate-Limited Task Queue
 1. Chat Server with Channels
 1. Augment Chat Server assignment with graceful shutdown
+1. Producer-Consumer Pipeline **(SOLUTION IN-PROGRESS)**
 
 > NOTE: At the top of each file is the assignment requirements along with some
 hints.
