@@ -14,6 +14,7 @@ you will need!
 1. Chat Server with Channels
 1. Augment Chat Server assignment with graceful shutdown
 1. Producer-Consumer Pipeline
+1. Async Retry with Exponential Backoff **_(NO SOLUTION YET)_**
 
 > NOTE: At the top of each file is the assignment requirements along with some
 hints.

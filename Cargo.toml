@@ -30,3 +30,7 @@ path = "src/assignment-4.rs"
 [[bin]]
 name = "hw5"
 path = "src/assignment-5.rs"
+
+[[bin]]
+name = "hw6"
+path = "src/assignment-6.rs"
