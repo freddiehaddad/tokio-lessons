@@ -1,30 +1,47 @@
 # Learn Tokio
 
-A collection of assignments designed to teach asynchronous programming in Rust
-using tokio. It's highly recommended not to look at the answers. You should
-implement the assignment first and compare.
+A collection of progressive assignments designed to teach asynchronous
+programming in Rust using [Tokio](https://tokio.rs/). Each assignment builds on
+concepts from previous ones, gradually introducing new async primitives and
+patterns.
 
-The hints point you towards the tokio documentation which include all the help
-you will need!
+Each assignment file contains the full requirements and hints at the top. Try to
+implement each one yourself before looking at the solution code in `src/`.
 
-## Assignment Breakdown
+## Prerequisites
 
-1. Concurrent Web Fetcher
-1. Rate-Limited Task Queue
-1. Chat Server with Channels
-1. Augment Chat Server assignment with graceful shutdown
-1. Producer-Consumer Pipeline
-1. Async Retry with Exponential Backoff **_(NO SOLUTION YET)_**
+- Comfortable with Rust fundamentals (ownership, borrowing, traits, generics,
+  error handling)
+- Basic understanding of async/await syntax in Rust
 
-> NOTE: At the top of each file is the assignment requirements along with some
-hints.
+## Assignments
+
+| #   | Name                           | Key Concepts                                             |
+| --- | ------------------------------ | -------------------------------------------------------- |
+| 1   | Concurrent Web Fetcher         | `tokio::spawn`, `JoinHandle`, basic async error handling |
+| 2   | Rate-Limited Task Queue        | `Semaphore`, bounded concurrency, backpressure           |
+| 3   | Chat Server with Channels      | `TcpListener`, `broadcast` channel, `select!`            |
+| 4   | Graceful Shutdown Orchestrator | `CancellationToken`, `signal::ctrl_c`, `timeout`         |
+| 5   | Producer-Consumer Pipeline     | Bounded `mpsc` channels, multi-stage pipelines           |
+| 6*  | Async Retry with Backoff       | Async generics, `tokio::time`, `#[tokio::test]`          |
+
+> NOTE: Assignments with an asterisk (*) indicate no solution _yet_.
 
 ## Getting Started
 
-Each assignment can be run as follows:
+Each assignment can be run with:
 
 ```console
 cargo run --bin hw1
 ```
 
-> NOTE: Replace `hw1` with the assignment number (e.g. `hw2`, `hw3`, ...).
+Replace `hw1` with the assignment number (e.g., `hw2`, `hw3`, etc.).
+
+## Resources
+
+- [Tokio Tutorial](https://tokio.rs/tokio/tutorial) — official walkthrough from
+  setup to a working mini-Redis
+- [Tokio API Docs](https://docs.rs/tokio/latest/tokio/) — reference for all
+  modules and types
+- [mini-redis](https://github.com/tokio-rs/mini-redis) — a real-world example
+  project using many of these patterns
