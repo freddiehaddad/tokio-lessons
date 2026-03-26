@@ -217,5 +217,5 @@ async fn example(c: &AtomicU32, e: u32) -> Result<String, String> {
 async fn main() {
     let count = Arc::new(AtomicU32::new(0));
     let result = retry(|| example(&count, 5), 10).await;
-    println!("Example successful on third attempt -> {:?}", result);
+    println!("Example successful on sixth attempt -> {:?}", result);
 }
