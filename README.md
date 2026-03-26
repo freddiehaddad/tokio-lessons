@@ -24,6 +24,7 @@ implement each one yourself before looking at the solution code in `src/`.
 | 4   | Graceful Shutdown Orchestrator | `CancellationToken`, `signal::ctrl_c`, `timeout`         |
 | 5   | Producer-Consumer Pipeline     | Bounded `mpsc` channels, multi-stage pipelines           |
 | 6   | Async Retry with Backoff       | Async generics, `tokio::time`, `#[tokio::test]`          |
+| 7*  | Connection Pool                | `Mutex`, `Semaphore`, `Deref`/`Drop`, guard pattern      |
 
 > NOTE: Assignments with an asterisk (*) indicate no solution _yet_.
 
