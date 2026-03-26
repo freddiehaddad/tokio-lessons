@@ -23,7 +23,7 @@ implement each one yourself before looking at the solution code in `src/`.
 | 3   | Chat Server with Channels      | `TcpListener`, `broadcast` channel, `select!`            |
 | 4   | Graceful Shutdown Orchestrator | `CancellationToken`, `signal::ctrl_c`, `timeout`         |
 | 5   | Producer-Consumer Pipeline     | Bounded `mpsc` channels, multi-stage pipelines           |
-| 6*  | Async Retry with Backoff       | Async generics, `tokio::time`, `#[tokio::test]`          |
+| 6   | Async Retry with Backoff       | Async generics, `tokio::time`, `#[tokio::test]`          |
 
 > NOTE: Assignments with an asterisk (*) indicate no solution _yet_.
 
