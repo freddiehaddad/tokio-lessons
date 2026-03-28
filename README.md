@@ -16,17 +16,15 @@ implement each one yourself before looking at the solution code in `src/`.
 
 ## Assignments
 
-| #    | Name                           | Key Concepts                                             |
-| ---- | ------------------------------ | -------------------------------------------------------- |
-| [1]  | Concurrent Web Fetcher         | `tokio::spawn`, `JoinHandle`, basic async error handling |
-| [2]  | Rate-Limited Task Queue        | `Semaphore`, bounded concurrency, backpressure           |
-| [3]  | Chat Server with Channels      | `TcpListener`, `broadcast` channel, `select!`            |
-| [4]  | Graceful Shutdown Orchestrator | `CancellationToken`, `signal::ctrl_c`, `timeout`         |
-| [5]  | Producer-Consumer Pipeline     | Bounded `mpsc` channels, multi-stage pipelines           |
-| [6]  | Async Retry with Backoff       | Async generics, `tokio::time`, `#[tokio::test]`          |
-| [7*] | Connection Pool                | `Mutex`, `Semaphore`, `Deref`/`Drop`, guard pattern      |
-
-> NOTE: Assignments with an asterisk (*) indicate no solution _yet_.
+| #   | Name                           | Key Concepts                                             | Solution |
+| --- | ------------------------------ | -------------------------------------------------------- | -------- |
+| [1] | Concurrent Web Fetcher         | `tokio::spawn`, `JoinHandle`, basic async error handling | ✓        |
+| [2] | Rate-Limited Task Queue        | `Semaphore`, bounded concurrency, backpressure           | ✓        |
+| [3] | Chat Server with Channels      | `TcpListener`, `broadcast` channel, `select!`            | ✓        |
+| [4] | Graceful Shutdown Orchestrator | `CancellationToken`, `signal::ctrl_c`, `timeout`         | ✓        |
+| [5] | Producer-Consumer Pipeline     | Bounded `mpsc` channels, multi-stage pipelines           | ✓        |
+| [6] | Async Retry with Backoff       | Async generics, `tokio::time`, `#[tokio::test]`          | ✓        |
+| [7] | Connection Pool                | `Mutex`, `Semaphore`, `Deref`/`Drop`, guard pattern      | ○        |
 
 ## Getting Started
 
@@ -53,4 +51,4 @@ Replace `hw1` with the assignment number (e.g., `hw2`, `hw3`, etc.).
 [4]: ./src/assignment-4.rs
 [5]: ./src/assignment-5.rs
 [6]: ./src/assignment-6.rs
-[7*]: ./src/assignment-7.rs
+[7]: ./src/assignment-7.rs
