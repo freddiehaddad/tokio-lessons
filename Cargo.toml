@@ -38,3 +38,7 @@ path = "src/assignment-6.rs"
 [[bin]]
 name = "hw7"
 path = "src/assignment-7.rs"
+
+[[bin]]
+name = "hw8"
+path = "src/assignment-8.rs"

@@ -25,6 +25,7 @@ implement each one yourself before looking at the solution code in `src/`.
 | [5] | Producer-Consumer Pipeline     | Bounded `mpsc` channels, multi-stage pipelines           | ✓        |
 | [6] | Async Retry with Backoff       | Async generics, `tokio::time`, `#[tokio::test]`          | ✓        |
 | [7] | Connection Pool                | `Mutex`, `Semaphore`, `Deref`/`Drop`, guard pattern      | ✓        |
+| [8]*| Custom Mini-Runtime (Bonus)    | `Future`, `Waker`, `RawWaker`, `Poll`, `Pin`             | ○        |
 
 ## Getting Started
 
@@ -52,3 +53,4 @@ Replace `hw1` with the assignment number (e.g., `hw2`, `hw3`, etc.).
 [5]: ./src/assignment-5.rs
 [6]: ./src/assignment-6.rs
 [7]: ./src/assignment-7.rs
+[8]: ./src/assignment-8.rs
