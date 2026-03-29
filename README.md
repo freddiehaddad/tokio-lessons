@@ -35,7 +35,13 @@ Each assignment can be run with:
 cargo run --bin hw1
 ```
 
-Replace `hw1` with the assignment number (e.g., `hw2`, `hw3`, etc.).
+Tests can be run with:
+
+```console
+cargo test --bin hw6
+```
+
+> **NOTE:** Replace `hw1` with the assignment number (e.g., `hw2`, `hw3`, etc.).
 
 ## Resources
 
