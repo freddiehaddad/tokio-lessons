@@ -114,7 +114,7 @@ impl Pool {
     fn new(size: u32) -> Self {
         // Create the connections
         let connections: VecDeque<Connection> =
-            (0..size).map(|id| Connection::new(id)).collect();
+            (0..size).map(Connection::new).collect();
 
         // Wrap the connections in a synchronization primitive
         let connections = Arc::new(Mutex::new(connections));
@@ -146,7 +146,7 @@ impl Pool {
         let connections = Arc::clone(&self.connections);
 
         PoolGuard {
-            connections: connections,
+            connections,
             connection: Some(connection),
             _permit: permit,
         }
