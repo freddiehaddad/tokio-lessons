@@ -75,8 +75,9 @@
 //
 // Hints:
 //
-//  - Store tasks as Vec<Pin<Box<dyn Future<Output = ()>>>>. Pair each with an
-//    Arc<AtomicBool> flag (the "wake" signal) - a Task struct works well here.
+//  - Each task needs a Pin<Box<dyn Future<Output = ()>>> paired with an
+//    Arc<AtomicBool> flag (the "wake" signal). A Task struct holding both
+//    fields, stored in a Vec<Task>, works well.
 //  - Build a Waker from a RawWaker: you need a RawWakerVTable with clone, wake,
 //    wake_by_ref, and drop functions. The wake function sets the AtomicBool to
 //    true.
@@ -98,7 +99,6 @@
 //  - poll takes Pin<&mut Self>. If all your fields are Unpin, call
 //    self.get_mut() once at the top of poll to unpin — calling it mid-method
 //    consumes the Pin and blocks further access to self.
-//  - cx.waker() is a method call, not field access.
 //
 // Grading criteria:
 //
@@ -127,7 +127,7 @@ use std::{
         atomic::{AtomicBool, Ordering::Relaxed},
     },
     task::{Context, Poll, RawWaker, RawWakerVTable, Waker},
-    thread::{sleep, spawn},
+    thread::{self, sleep},
     time::Duration,
 };
 
@@ -287,7 +287,7 @@ impl Future for TimerFuture {
             let waker_clone = this.waker.clone();
             let duration_clone = this.duration;
 
-            spawn(move || {
+            thread::spawn(move || {
                 sleep(duration_clone);
                 completed_clone.store(true, Relaxed);
                 if let Some(waker) = waker_clone.lock().unwrap().take() {
