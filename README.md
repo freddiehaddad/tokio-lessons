@@ -25,7 +25,7 @@ implement each one yourself before looking at the solution code in `src/`.
 | [5] | Producer-Consumer Pipeline     | Bounded `mpsc` channels, multi-stage pipelines           | ✓        |
 | [6] | Async Retry with Backoff       | Async generics, `tokio::time`, `#[tokio::test]`          | ✓        |
 | [7] | Connection Pool                | `Mutex`, `Semaphore`, `Deref`/`Drop`, guard pattern      | ✓        |
-| [8]*| Custom Mini-Runtime (Bonus)    | `Future`, `Waker`, `RawWaker`, `Poll`, `Pin`             | ○        |
+| [8] | Custom Mini-Runtime (Bonus)    | `Future`, `Waker`, `RawWaker`, `Poll`, `Pin`             | ✓        |
 
 ## Getting Started
 
