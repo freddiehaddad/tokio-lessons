@@ -127,7 +127,7 @@ use std::{
         atomic::{AtomicBool, Ordering::Relaxed},
     },
     task::{Context, Poll, RawWaker, RawWakerVTable, Waker},
-    thread::{self, sleep},
+    thread::{sleep, spawn},
     time::Duration,
 };
 
@@ -287,8 +287,8 @@ impl Future for TimerFuture {
             let waker_clone = this.waker.clone();
             let duration_clone = this.duration;
 
-            thread::spawn(move || {
-                thread::sleep(duration_clone);
+            spawn(move || {
+                sleep(duration_clone);
                 completed_clone.store(true, Relaxed);
                 if let Some(waker) = waker_clone.lock().unwrap().take() {
                     waker.wake();
