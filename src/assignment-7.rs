@@ -171,8 +171,9 @@ impl Drop for PoolGuard {
 
 impl Deref for PoolGuard {
     type Target = Connection;
-    fn deref(&self) -> &<Self as Deref>::Target {
-        self.connection.as_ref().expect("connection taken")
+
+    fn deref(&self) -> &Self::Target {
+        self.connection.as_ref().expect("Connection taken")
     }
 }
 
